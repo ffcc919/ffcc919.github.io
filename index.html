@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们的爱情纪念册</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- 音乐播放器 -->
+    <div class="music-player" id="musicPlayer">
+        <div class="music-controls">
+            <button class="music-btn" id="playPauseBtn" onclick="toggleMusic()">
+                <i class="fas fa-play" id="playIcon"></i>
+            </button>
+            <button class="music-btn" id="nextBtn" onclick="nextSong()">
+                <i class="fas fa-forward"></i>
+            </button>
+            <button class="music-btn" id="volumeBtn" onclick="toggleMute()">
+                <i class="fas fa-volume-up" id="volumeIcon"></i>
+            </button>
+        </div>
+        <div class="music-info">
+            <div class="song-title" id="songTitle">浪漫背景音乐</div>
+            <div class="music-progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+        <div class="music-toggle" onclick="toggleMusicPlayer()">
+            <i class="fas fa-music"></i>
+        </div>
+    </div>
+
+    <!-- 音频元素 -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+        <!-- 备用音乐链接 -->
+        <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+        <!-- 如果上述链接不可用，会使用本地音频文件 -->
+    </audio>
+
+    <!-- 背景装饰 -->
+    <div class="background-hearts">
+        <div class="heart heart1">💕</div>
+        <div class="heart heart2">💖</div>
+        <div class="heart heart3">💝</div>
+        <div class="heart heart4">💗</div>
+        <div class="heart heart5">💘</div>
+        <div class="heart heart6">💞</div>
+        <div class="heart heart7">💓</div>
+        <div class="heart heart8">💟</div>
+    </div>
+
+    <!-- 主页面 -->
+    <div class="main-container" id="mainPage">
+        <!-- 头部 -->
+        <header class="header">
+            <h1 class="title">我们的爱情纪念册</h1>
+            <p class="subtitle">记录每一个美好瞬间 ✨</p>
+        </header>
+
+        <!-- 在一起时间计算器 -->
+        <div class="love-timer">
+            <div class="timer-card">
+                <h3>我们在一起</h3>
+                <div class="date-selector">
+                    <label>选择在一起的日期：</label>
+                    <input type="date" id="startDate" onchange="updateTimer()">
+                </div>
+                <div class="timer-display" id="timerDisplay">
+                    <div class="time-unit">
+                        <span class="number" id="days">0</span>
+                        <span class="label">天</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="number" id="hours">0</span>
+                        <span class="label">小时</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="number" id="minutes">0</span>
+                        <span class="label">分钟</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="number" id="seconds">0</span>
+                        <span class="label">秒</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能导航 -->
+        <div class="nav-grid">
+            <div class="nav-card" onclick="openSection('diary')">
+                <div class="card-icon">📖</div>
+                <h3>情侣日记</h3>
+                <p>记录我们的日常点滴</p>
+            </div>
+
+            <div class="nav-card" onclick="openSection('sweetWords')">
+                <div class="card-icon">💌</div>
+                <h3>甜蜜情话</h3>
+                <p>那些说不完的情话</p>
+            </div>
+
+            <div class="nav-card" onclick="openSection('travel')">
+                <div class="card-icon">🗺️</div>
+                <h3>旅行回忆</h3>
+                <p>我们走过的每一个地方</p>
+            </div>
+
+            <div class="nav-card" onclick="openSection('school')">
+                <div class="card-icon">🎓</div>
+                <h3>校园记忆</h3>
+                <p>青春里最美的时光</p>
+            </div>
+
+            <div class="nav-card" onclick="openSection('food')">
+                <div class="card-icon">🍰</div>
+                <h3>美食记录</h3>
+                <p>一起品尝的美味</p>
+            </div>
+
+            <div class="nav-card" onclick="openSection('secrets')">
+                <div class="card-icon">🤫</div>
+                <h3>悄咪咪的话</h3>
+                <p>只有我们知道的小秘密</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 情侣日记页面 -->
+    <div class="section-page" id="diaryPage">
+        <div class="section-header">
+            <button class="back-btn" onclick="backToMain()">← 返回</button>
+            <h2>情侣日记 📖</h2>
+        </div>
+        <div class="diary-container">
+            <div class="add-diary">
+                <h3>添加新日记</h3>
+                <input type="date" id="diaryDate" placeholder="选择日期">
+                <textarea id="diaryContent" placeholder="今天想说些什么呢..."></textarea>
+                <input type="file" id="diaryPhoto" accept="image/*" multiple>
+                <button onclick="addDiary()">保存日记</button>
+            </div>
+            <div class="diary-list" id="diaryList">
+                <!-- 日记列表将在这里显示 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 甜蜜情话页面 -->
+    <div class="section-page" id="sweetWordsPage">
+        <div class="section-header">
+            <button class="back-btn" onclick="backToMain()">← 返回</button>
+            <h2>甜蜜情话 💌</h2>
+        </div>
+        <div class="sweet-words-container">
+            <div class="add-sweet-word">
+                <textarea id="sweetWordContent" placeholder="想对TA说什么甜蜜的话呢..."></textarea>
+                <button onclick="addSweetWord()">添加情话</button>
+            </div>
+            <div class="sweet-words-list" id="sweetWordsList">
+                <!-- 情话列表将在这里显示 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 旅行回忆页面 -->
+    <div class="section-page" id="travelPage">
+        <div class="section-header">
+            <button class="back-btn" onclick="backToMain()">← 返回</button>
+            <h2>旅行回忆 🗺️</h2>
+        </div>
+        <div class="travel-container">
+            <div class="travel-input">
+                <input type="text" id="cityInput" placeholder="输入城市名称">
+                <input type="date" id="travelDate">
+                <textarea id="travelNote" placeholder="这次旅行的回忆..."></textarea>
+                <input type="file" id="travelPhotos" accept="image/*" multiple>
+                <button onclick="addTravelMemory()">添加旅行回忆</button>
+            </div>
+            <div class="map-container">
+                <div id="travelMap">
+                    <div class="map-placeholder">
+                        <p>🗺️ 旅行地图</p>
+                        <div class="travel-points" id="travelPoints">
+                            <!-- 旅行点将在这里显示 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 校园记忆页面 -->
+    <div class="section-page" id="schoolPage">
+        <div class="section-header">
+            <button class="back-btn" onclick="backToMain()">← 返回</button>
+            <h2>校园记忆 🎓</h2>
+        </div>
+        <div class="school-container">
+            <div class="add-school-memory">
+                <input type="date" id="schoolDate">
+                <input type="text" id="schoolLocation" placeholder="地点（如：图书馆、食堂、教学楼）">
+                <textarea id="schoolContent" placeholder="校园里的美好回忆..."></textarea>
+                <input type="file" id="schoolPhotos" accept="image/*" multiple>
+                <button onclick="addSchoolMemory()">保存校园记忆</button>
+            </div>
+            <div class="school-memories" id="schoolMemories">
+                <!-- 校园记忆将在这里显示 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 美食记录页面 -->
+    <div class="section-page" id="foodPage">
+        <div class="section-header">
+            <button class="back-btn" onclick="backToMain()">← 返回</button>
+            <h2>美食记录 🍰</h2>
+        </div>
+        <div class="food-container">
+            <div class="add-food">
+                <input type="text" id="foodName" placeholder="美食名称">
+                <input type="text" id="foodLocation" placeholder="餐厅/地点">
+                <input type="date" id="foodDate">
+                <textarea id="foodReview" placeholder="味道如何？有什么特别的回忆吗？"></textarea>
+                <input type="file" id="foodPhotos" accept="image/*" multiple>
+                <button onclick="addFoodMemory()">保存美食记录</button>
+            </div>
+            <div class="food-list" id="foodList">
+                <!-- 美食记录将在这里显示 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 悄咪咪的话页面 -->
+    <div class="section-page" id="secretsPage">
+        <div class="section-header">
+            <button class="back-btn" onclick="backToMain()">← 返回</button>
+            <h2>悄咪咪的话 🤫</h2>
+        </div>
+        <div class="secrets-container">
+            <div class="add-secret">
+                <textarea id="secretContent" placeholder="只有我们知道的小秘密..."></textarea>
+                <button onclick="addSecret()">保存秘密</button>
+            </div>
+            <div class="secrets-list" id="secretsList">
+                <!-- 秘密列表将在这里显示 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
